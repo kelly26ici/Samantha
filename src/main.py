@@ -32,6 +32,7 @@ async def receive_message(request: Request):
 
     signature = request.headers.get("X-Hub-Signature-256", "")
     if APP_SECRET and not verify_signature(body, signature):
+        print("WARNING: signature verification failed")
         return Response(status_code=403)
 
     data = await request.json()
@@ -46,10 +47,9 @@ async def receive_message(request: Request):
             msg_type = msg["type"]
             print(f"From {sender}, type: {msg_type}")
             if msg_type == "text":
-                print("Text:", msg["text"]["body"])
-            # TODO: route to Jarvis perceive step
-    except (KeyError, IndexError):
-        pass
+                print("Text body:", msg["text"]["body"])
+    except (KeyError, IndexError) as e:
+        print("Parse error (probably a status update, not a message):", e)
 
     return Response(status_code=200)
 
