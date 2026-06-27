@@ -1,14 +1,11 @@
 fastapi
 uvicorn
-openai
-sentence-transformers
 httpx
 requests
 pydantic
 psycopg2-binary
 redis
 groq
-openai-whisper
 pillow
 pytesseract
 pypdf
@@ -16,3 +13,4 @@ pdfminer.six
 python-dotenv
 tenacity
 qdrant-client
+python-multipart
