@@ -3,7 +3,7 @@ import hmac
 import hashlib
 import httpx
 from fastapi import FastAPI, Request, Response
-from src.services.groq_service import ask_groq  # adjust path to wherever your snippet lives
+from src.services.llm import ask_groq  # adjust path to wherever your snippet lives
 
 app = FastAPI()
 
