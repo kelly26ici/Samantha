@@ -1,3 +1,135 @@
+# =====================
+# SECRETS
+# =====================
 .env
+.env.*
+*.env
+*.key
+*.pem
+*.pem.*
+secrets.json
+config.json
+credentials.json
+
+# =====================
+# PYTHON
+# =====================
 __pycache__/
-*.pyc.env
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.so
+
+# =====================
+# VIRTUAL ENVIRONMENT
+# =====================
+venv/
+env/
+.venv/
+.virtualenv/
+
+# =====================
+# PACKAGES / PIP
+# =====================
+pip-log.txt
+pip-delete-this-directory.txt
+
+# =====================
+# TESTING / COVERAGE
+# =====================
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# =====================
+# TYPE CHECKING
+# =====================
+.mypy_cache/
+.dmypy.json
+
+# =====================
+# JUPYTER NOTEBOOKS
+# =====================
+.ipynb_checkpoints/
+
+# =====================
+# AI / ML MODELS
+# =====================
+*.gguf
+*.bin
+*.pt
+*.pth
+*.safetensors
+models/
+
+# =====================
+# NODE / FRONTEND
+# =====================
+node_modules/
+bower_components/
+jspm_packages/
+
+# =====================
+# LOGS
+# =====================
+*.log
+logs/
+log/
+
+# =====================
+# BUILD OUTPUT
+# =====================
+build/
+dist/
+out/
+target/
+
+# =====================
+# SYSTEM FILES
+# =====================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# =====================
+# IDE / EDITORS
+# =====================
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# =====================
+# DEPLOYMENT
+# =====================
+render.yaml
+Procfile
+
+# =====================
+# ANDROID / TERMUX
+# =====================
+*.apk
+*.obb
+*.dex
+.cache/
+
+# =====================
+# TEMP FILES
+# =====================
+tmp/
+temp/
+*.tmp
+*.bak
+*.old
+
+# =====================
+# APPLICATION SPECIFIC
+# =====================
+downloads/
+media/
+uploads/
+sessions/
+cache/
