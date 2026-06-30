@@ -34,3 +34,5 @@ def ask_groq(user_input: str):
     )
   
   return reply
+  
+print(messages)

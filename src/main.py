@@ -35,7 +35,7 @@ async def verify_webhook(request: Request):
 @app.post("/webhook")
 async def receive_message(request: Request):
     body = await request.body()
-
+    
     signature = request.headers.get("X-Hub-Signature-256", "")
     if APP_SECRET and not verify_signature(body, signature):
         print("WARNING: signature verification failed")
