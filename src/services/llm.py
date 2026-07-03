@@ -11,14 +11,7 @@ messages=[
     },
   ]
 
-def ask_groq(user_input: str):
-  
-  messages.append(
-      {
-      "role": "user",
-      "content": user_input
-      }
-      )
+def groq_llm(user_input: str):
   
   response=client.chat.completions.create(
     model="llama-3.3-70b-versatile",
