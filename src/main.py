@@ -3,7 +3,7 @@ import hmac
 import hashlib
 import httpx
 from fastapi import FastAPI, Request, Response
-from src.services.llm import ask_groq  # adjust path to wherever your snippet lives
+from src.services.llm import ask_groq
 
 app = FastAPI()
 
@@ -13,6 +13,12 @@ ACCESS_TOKEN = os.getenv("META_ACCESS_TOKEN", "")
 PHONE_NUMBER_ID = os.getenv("META_PHONE_NUMBER_ID", "")
 GRAPH_VERSION = os.getenv("META_GRAPH_API_VERSION", "v23.0")
 GRAPH_BASE = os.getenv("META_GRAPH_BASE_URL", "https://graph.facebook.com")
+
+# Per-customer conversation history: { phone_number: [ {role, content}, ... ] }
+# NOTE: this resets on every Render restart/redeploy. Fine for testing;
+# swap for Redis (you already use it in Samantha) for anything persistent.
+conversations: dict[str, list[dict]] = {}
+MAX_HISTORY = 10  # keep last N messages per customer to control token usage
 
 
 @app.get("/")
@@ -35,7 +41,7 @@ async def verify_webhook(request: Request):
 @app.post("/webhook")
 async def receive_message(request: Request):
     body = await request.body()
-    
+
     signature = request.headers.get("X-Hub-Signature-256", "")
     if APP_SECRET and not verify_signature(body, signature):
         print("WARNING: signature verification failed")
@@ -49,7 +55,7 @@ async def receive_message(request: Request):
         messages = entry.get("messages")
         if messages:
             msg = messages[0]
-            sender = msg["from"]
+            sender = msg["from"]  # this is the customer's phone number — our key
             msg_type = msg["type"]
             print(f"From {sender}, type: {msg_type}")
 
@@ -57,8 +63,8 @@ async def receive_message(request: Request):
                 user_text = msg["text"]["body"]
                 print("Text body:", user_text)
 
-                reply_text = ask_groq(user_text)
-                print("Groq reply:", reply_text)
+                reply_text = await get_reply_for_customer(sender, user_text)
+                print("Reply:", reply_text)
 
                 await send_whatsapp_message(sender, reply_text)
 
@@ -66,6 +72,23 @@ async def receive_message(request: Request):
         print("Parse error (probably a status update, not a message):", e)
 
     return Response(status_code=200)
+
+
+async def get_reply_for_customer(sender: str, user_text: str) -> str:
+    """Builds a reply using THIS customer's own conversation history only."""
+    history = conversations.setdefault(sender, [])
+
+    history.append({"role": "user", "content": user_text})
+
+    reply_text = ask_groq(history)  # pass full per-customer history, not just the raw string
+
+    history.append({"role": "assistant", "content": reply_text})
+
+    # trim so it doesn't grow unbounded
+    if len(history) > MAX_HISTORY:
+        conversations[sender] = history[-MAX_HISTORY:]
+
+    return reply_text
 
 
 async def send_whatsapp_message(to: str, text: str):
