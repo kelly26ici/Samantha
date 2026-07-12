@@ -1,5 +1,4 @@
 import base64
-import httpx
 from src.configs.settings import CONSUMER_KEY, CONSUMER_SECRET
 from src.clients.httpx import httpx
 
@@ -12,7 +11,7 @@ async def generate_access_token() -> str:
     headers = {"Authorization": f"Basic {encoded_credentials}"}
 
     try:
-        response = await client.get(url, headers=headers)
+        response = await httpx.get(url, headers=headers)
         response.raise_for_status()
         body = response.json()
     except httpx.HTTPStatusError as e:

@@ -20,6 +20,26 @@ GEMINI_API_KEY=os.getenv("GEMINI_API_KEY")
 
 
 #======================================================
+#                    WHATSAPP 
+#======================================================
+
+
+META_VERIFY_TOKEN=os.getenv("META_VERIFY_TOKEN", "")
+
+META_APP_SECRET=os.getenv("META_APP_SECRET", "")
+
+META_ACCESS_TOKEN=os.getenv("META_ACCESS_TOKEN", "")
+
+META_PHONE_NUMBER_ID=os.getenv("META_PHONE_NUMBER_ID", "")
+
+META_GRAPH_API_VERSION=os.getenv("META_GRAPH_API_VERSION", "v23.0")
+
+META_GRAPH_BASE_URL=os.getenv("META_GRAPH_BASE_URL", "https://graph.facebook.com")
+
+MAX_HISTORY = int(os.getenv("MAX_HISTORY", "10"))
+
+
+#======================================================
 #                     QDRANT                          #
 #======================================================
 
@@ -47,6 +67,3 @@ PASSKEY=os.getenv("PASSKEY")
 
 
 #TAVILY
-TAVILY_API_KEY=os.getenv("TAVILY_API_KEY")
-
-#
