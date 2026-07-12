@@ -1,4 +1,4 @@
-from src.clients.httpx_client import client
+from src.clients.httpx_client import httpx
 from src.configs.settings import (
     META_ACCESS_TOKEN,
     META_PHONE_NUMBER_ID,
