@@ -1,25 +1,34 @@
-from fastapi import APIRouter, Request, Response
 
-from src.configs.settings import META_VERIFY_TOKEN
-from src.messages.webhook import process_webhook_event
+import json
 
-router = APIRouter()
+from fastapi import Response
 
-
-@router.get("/webhook")
-async def verify_webhook(request: Request):
-    params = request.query_params
-    mode = params.get("hub.mode")
-    token = params.get("hub.verify_token")
-    challenge = params.get("hub.challenge")
-
-    if mode == "subscribe" and token == META_VERIFY_TOKEN:
-        return Response(content=challenge, media_type="text/plain")
-    return Response(status_code=403)
+from src.messages.validator import verify_signature
+from src.messages.parser import parse_incoming
+from src.messages.router import dispatch
 
 
-@router.post("/webhook")
-async def receive_message(request: Request):
-    body = await request.body()
-    signature = request.headers.get("X-Hub-Signature-256", "")
-    return await process_webhook_event(body, signature)
+async def process_webhook_event(body: bytes, signature_header: str) -> Response:
+    """Full pipeline for one POST /webhook call: verify -> parse -> dispatch.
+
+    Always returns 200 once the signature check passes, even if a handler
+    throws — returning non-200 makes Meta retry-deliver the same message,
+    which just re-triggers the same failure (or double-sends once it's fixed).
+    """
+    if not verify_signature(body, signature_header):
+        print("WARNING: signature verification failed")
+        return Response(status_code=403)
+
+    data = json.loads(body)
+
+    message = parse_incoming(data)
+    if message is None:
+        return Response(status_code=200)  # status update, not a message
+
+    try:
+        await dispatch(message)
+    except Exception as e:
+        print(f"Error handling message from {message.sender}: {e}")
+
+    return Response(status_code=200)
+    
