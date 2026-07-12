@@ -2,6 +2,7 @@ fastapi
 uvicorn
 httpx
 requests
+tavily-python
 pydantic
 psycopg2-binary
 redis

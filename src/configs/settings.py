@@ -1,17 +1,52 @@
 import os 
 from dotenv import load_dotenv
 
+#======================================================
+#                      BODY
+#======================================================
+
+
 load_dotenv()
 
+
+#======================================================
+#                      LLMS
+#======================================================
+
+
 GROQ_API_KEY=os.getenv("GROQ_API_KEY")
+
+GEMINI_API_KEY=os.getenv("GEMINI_API_KEY")
+
+
+#======================================================
+#                     QDRANT                          #
+#======================================================
 
 
 QDRANT_API_KEY = os.getenv("SAMANTHA_API_KEY")
 
 QDRANT_URL = "https://a5a1a881-af3a-425a-9066-bbb0cf7bcc7d.eu-west-1-0.aws.cloud.qdrant.io"
 
+
+#======================================================
+#                     MPESA
+#======================================================
+
+
 CONSUMER_SECRET=os.getenv("CONSUMER_SECRET")
 
 CONSUMER_KEY=os.getenv("CONSUMER_KEY")
 
 PASSKEY=os.getenv("PASSKEY")
+
+
+#======================================================
+#                     TOOLS
+#======================================================
+
+
+#TAVILY
+TAVILY_API_KEY=os.getenv("TAVILY_API_KEY")
+
+#
