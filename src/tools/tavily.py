@@ -1,6 +1,6 @@
 from tavily import AsyncTavilyClient
 from pydantic import BaseModel, Field
-from typing import Literal, dict
+from typing import Literal
 from src.configs.settings import TAVILY_API_KEY
 
 client=AsyncTavilyClient(api_key=TAVILY_API_KEY)
@@ -41,13 +41,13 @@ async def tavily_search(input: TavilyInput) -> dict:
       exclude_defaults=False
       )
   
-  params={key, value for key, value in params.items if value not in (None, [])}
+  params={key: value for key, value in params.items() if value not in (None, [])}
   
   try:
     
     response=client.search(**params)
   
   except Exception as e:
-    
+    print(f"Failed to seearch: {e}")
   
   return response

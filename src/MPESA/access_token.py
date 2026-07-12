@@ -1,7 +1,7 @@
 import asyncio
 import base64
 from src.configs.settings import CONSUMER_KEY, CONSUMER_SECRET
-from src.clients.httpx import httpx
+from src.clients.httpx_client import httpx
 
 
 async def generate_access_token() -> str:

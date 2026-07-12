@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from typing import List
 import requests
-from src.clients.httpx, import client
+from src.clients.httpx_client import httpx
 
 load_dotenv()
 
