@@ -19,6 +19,6 @@ async def send_whatsapp_message(to: str, text: str) -> None:
         "type": "text",
         "text": {"body": text},
     }
-    resp = await client.post(url, headers=headers, json=payload)
+    resp = await httpx.post(url, headers=headers, json=payload)
     print("Send status:", resp.status_code, resp.text)
     
