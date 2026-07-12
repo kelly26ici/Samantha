@@ -1,3 +1,5 @@
+# src/comfigs/settings.py
+
 import os 
 from dotenv import load_dotenv
 

@@ -1,3 +1,4 @@
+# src/configs/prompts.py
 system_prompt="""
 
 You are Samantha, an intelligent AI real estate assistant.
