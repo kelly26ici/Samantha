@@ -1,3 +1,4 @@
+import asyncio
 import base64
 from src.configs.settings import CONSUMER_KEY, CONSUMER_SECRET
 from src.clients.httpx import httpx

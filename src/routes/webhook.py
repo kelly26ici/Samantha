@@ -1,3 +1,4 @@
+import asyncio
 from fastapi import APIRouter, Request, Response
 
 from src.configs.settings import META_VERIFY_TOKEN
