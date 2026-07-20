@@ -55,12 +55,17 @@ QDRANT_URL = "https://a5a1a881-af3a-425a-9066-bbb0cf7bcc7d.eu-west-1-0.aws.cloud
 #                     MPESA
 #======================================================
 
+MPESA_BASE_URL = "https://sandbox.safaricom.co.ke"  #I'll switch to https://api.safaricom.co.ke at go-live
 
 CONSUMER_SECRET=os.getenv("CONSUMER_SECRET")
 
 CONSUMER_KEY=os.getenv("CONSUMER_KEY")
 
 PASSKEY=os.getenv("PASSKEY")
+
+SHORTCODE=os.getenv("SHORTCODE")
+
+CALLBACK_URL=os.getenv("CALLBACK_URL")
 
 
 #======================================================

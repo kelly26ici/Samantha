@@ -1,18 +1,19 @@
-import asyncio
+# Samantha/src/payments/access_token.py
+
 import base64
-from src.configs.settings import CONSUMER_KEY, CONSUMER_SECRET
+from src.configs.settings import CONSUMER_KEY, CONSUMER_SECRET, MPESA_BASE_URL
 from src.clients.httpx_client import httpx
 
 
 async def generate_access_token() -> str:
-    url = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
-    encoded_credentials = base64.b64encode(
-        f"{CONSUMER_KEY}:{CONSUMER_SECRET}".encode()
-    ).decode()
+
+    url = f"{MPESA_BASE_URL}/oauth/v1/generate?grant_type=client_credentials"
+    encoded_credentials = base64.b64encode(f"{CONSUMER_KEY}:{CONSUMER_SECRET}".encode()).decode()
+
     headers = {"Authorization": f"Basic {encoded_credentials}"}
 
     try:
-        response = await httpx.get(url, headers=headers)
+        response = await httpx.get(url=url, headers=headers)
         response.raise_for_status()
         body = response.json()
     except httpx.HTTPStatusError as e:
