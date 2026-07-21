@@ -75,3 +75,6 @@ CALLBACK_URL=os.getenv("CALLBACK_URL")
 
 #TAVILY
 TAVILY_API_KEY=os.getenv("TAVILY_API_KEY")
+
+
+RENDER_BASE_URL=os.getenv("RENDER_BASE_URL", "https://samantha-nrev.onrender.com")

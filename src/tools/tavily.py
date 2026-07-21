@@ -17,14 +17,13 @@ class TavilyInput(BaseModel):
       description="Use 'news' for recent events, breaking news, or time-sensitive queries."
     )
   max_results: int = Field(default=5, ge=1, le=20)
-
   include_answer: bool = Field(
       default=True,
       description="Include Tavily's synthesized answer")
   include_domains: list[str] = Field(
       default_factory=list,
       description="Restrict search to these domains")
-      
+     
   exclude_domains: list[str] = Field(
       default_factory=list)
       

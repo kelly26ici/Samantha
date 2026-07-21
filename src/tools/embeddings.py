@@ -44,4 +44,4 @@ async def get_embeddings(text_chunks: list[str]) -> List[List[float]]:
         print(f"Network timeout/failure connecting to Cloudflare: {e}")
         return []
   
-  return response.json()["result"]["data"]
+    return response.json()["result"]["data"]
