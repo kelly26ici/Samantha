@@ -4,3 +4,9 @@ uvicorn
 tenacity
 pydantic
 typing
+dotenv
+google-genai
+tavily
+sys
+qdrant_client
+requests
