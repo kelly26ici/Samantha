@@ -8,7 +8,9 @@
 	sql \
 	mpesa \
 	test \
-	clean
+	clean \
+	loguru \
+	template
 
 settings:
 	python -m src.configs.settings
@@ -40,3 +42,9 @@ test:
 clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +
 	find . -type f -name "*.pyc" -delete
+
+loguru:
+	uv run tests/test_loguru.py				
+
+template:
+	uv run template.sh

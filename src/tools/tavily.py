@@ -2,6 +2,8 @@ from tavily import AsyncTavilyClient
 from pydantic import BaseModel, Field
 from typing import Literal
 from src.configs.settings import TAVILY_API_KEY
+from src.tools.registry import registry
+
 
 client=AsyncTavilyClient(api_key=TAVILY_API_KEY)
 

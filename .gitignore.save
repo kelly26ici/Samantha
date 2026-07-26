@@ -1,0 +1,7 @@
+.ven/
+__pycache__/
+*.pyc*python
+.DS_Store
+*.egg-info/
+dist/
+uild/

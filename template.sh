@@ -54,3 +54,14 @@ touch src/messages/reactions/__init__.py
 touch src/messages/reactions/reaction_handler.py
 
 echo "✅ WhatsApp messages module scaffolded."
+
+
+#=========================================================================================================================
+#                                      MPESA
+#=========================================================================================================================
+mkdir -p src/tools/mpesa
+
+touch src/tools/mpesa/__init__.py
+touch src/tools/mpesa/generate_access_tolen.py
+touch src/tools/mpesa/send_stk_push.py
+touch src/tools/mpesa/callback_url.py

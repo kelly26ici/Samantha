@@ -160,9 +160,9 @@ class MpesaAgentClient:
     )
     async def generate_access_token(self) -> str:
         url = f"{self.base_url}/oauth/v1/generate?grant_type=client_credentials"
-        encoded_credentials = base64.b64encode(
-            f"{self.consumer_key}:{self.consumer_secret}".encode()
-        ).decode()
+
+        encoded_credentials = base64.b64encode(f"{self.consumer_key}:{self.consumer_secret}".encode()).decode()
+        
         headers = {"Authorization": f"Basic {encoded_credentials}"}
 
         response = await self.client.get(url=url, headers=headers)
@@ -180,12 +180,14 @@ class MpesaAgentClient:
         wait=wait_exponential(multiplier=1, min=2, max=10),
         retry=retry_if_exception_type(TRANSIENT_ERRORS),
     )
-    async def register_c2b_urls(
-        self, response_type: Literal["Cancelled", "Completed"] = "Completed"
-    ) -> Dict[str, Any]:
+    async def register_c2b_urls(self, response_type: Literal["Cancelled", "Completed"] = "Completed") -> Dict[str, Any]:
+
         token = await self.generate_access_token()
+
         url = f"{self.base_url}/mpesa/c2b/v1/registerurl"
+
         headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
+
         payload = C2BRegisterSchema(ResponseType=response_type).model_dump()
 
         response = await self.client.post(url=url, headers=headers, json=payload)
@@ -201,14 +203,17 @@ class MpesaAgentClient:
         retry=retry_if_exception_type(TRANSIENT_ERRORS),
     )
     async def _stk_push(self, payload: MpesaPaymentSchema) -> Dict[str, Any]:
+        
         token = await self.generate_access_token()
+        
         url = f"{self.base_url}/mpesa/stkpush/v1/processrequest"
+
         timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-        password = base64.b64encode(
-            f"{self.shortcode}{self.passkey}{timestamp}".encode("utf-8")
-        ).decode("utf-8")
+        password = base64.b64encode(f"{self.shortcode}{self.passkey}{timestamp}".encode("utf-8")).decode("utf-8")
+    
 
         body_payload = payload.model_dump()
+
         body_payload.update(
             {
                 "BusinessShortCode": self.shortcode,
@@ -220,9 +225,13 @@ class MpesaAgentClient:
             }
         )
 
-        headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
+        headers = {
+                "Authorization": f"Bearer {token}",
+                "Content-Type": "application/json"
+            }
 
         response = await self.client.post(url=url, headers=headers, json=body_payload)
+
         response.raise_for_status()
         body = response.json()
 
@@ -237,8 +246,11 @@ class MpesaAgentClient:
         retry=retry_if_exception_type(TRANSIENT_ERRORS),
     )
     async def _query_stk_status(self, checkout_request_id: str) -> Dict[str, Any]:
+
         token = await self.generate_access_token()
+
         url = f"{self.base_url}/mpesa/stkpushquery/v1/query"
+        
         timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
         password = base64.b64encode(
             f"{self.shortcode}{self.passkey}{timestamp}".encode("utf-8")
@@ -276,7 +288,7 @@ async def send_stk_push(payload: MpesaPaymentSchema) -> STKPushResult:
     customer needs an immediate answer.
 
     Args:
-        payload: Amount, PartyA (payer phone in 2547XXXXXXXX format),
+        payload: Amount, PartyA (payer phone in 254xXXXXXXXX format),
             AccountReference, TransactionDesc, TransactionType.
 
     Returns:
